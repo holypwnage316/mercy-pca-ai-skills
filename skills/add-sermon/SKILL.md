@@ -25,7 +25,7 @@ Keep reusable workflow instructions in this skill file. Keep passwords, authenti
 
 ## Required inputs
 
-Before beginning the workflow, obtain at minimum:
+Collect the following inputs for the completed entry. Audio preparation may begin before all metadata is available, as described below:
 
 - **Sermon title** — the exact title to use on the website.
 - **Source audio file** — typically an `.m4a` recording supplied by the user or downloaded from a link the user provides.
@@ -35,9 +35,19 @@ Before beginning the workflow, obtain at minimum:
 - **Service type** — the appropriate service classification, such as Morning Service.
 - **Sermon series** — the existing sermon series to associate with the sermon.
 
-Additional required sermon metadata will be added to this list as the workflow is documented.
+Do not block audio preparation on unrelated metadata once the source is downloaded and the sermon date is confirmed.
 
 Do not infer or invent the sermon title from the audio filename, scripture passage, or other context unless the user explicitly instructs you to do so.
+
+## Persistent run record and conversation checklist
+
+Maintain a durable local run record outside the repository for each sermon. Update it as messages arrive and after each completed operation; reload it when resuming. Keep credentials and authenticated download URLs out of the record.
+
+- For every required input, store its value, source message or reference, and status: **confirmed**, **inferred**, or **missing**. User-supplied values are confirmed unless ambiguous; filename-derived clues remain inferred until confirmed. For example, a filename suggesting `1 Corinthians 16:1–24` does not confirm the passage.
+- Reread the full active request thread, including nearby messages and attachments, and reconcile it with the record before asking any follow-up. Never ask again for a value already supplied. If earlier context is inaccessible, state that limitation rather than claiming the user never supplied it.
+- Apply explicit corrections to the stored values. Ask only about unresolved conflicts, missing inputs, or inferred values needing confirmation; bundle these questions when practical.
+- Store the source and output file paths, audio-processing log, WordPress draft/post ID, edit URL, permalink, uploaded media ID/URL, approval state, and verification results. Record milestones already reported.
+- Start audio preparation as soon as the source is downloaded and the date is confirmed, while collecting remaining metadata. Do not publish with required values still inferred or missing.
 
 ## Workflow
 
@@ -68,7 +78,24 @@ Examples:
 
 If the sermon date cannot be determined confidently from the source information, ask the user rather than guessing.
 
+#### Reproducible audio-processing log
+
+Retain the original audio. Record the exact recipe actually used, not just “cleaned and normalized.” Choose conservative settings appropriate to the recording; do not invent settings or measurements after processing.
+
+Record:
+
+- Source filename, duration, container/codec, sample rate, and channels.
+- Tool and version, exact command or equivalent processing configuration, filter order and every setting (noise reduction, EQ, compression, normalization), including any processing deliberately skipped and why.
+- Target loudness and peak ceiling chosen before processing, plus measured final MP3 integrated loudness (LUFS) and true peak (dBTP). Record both passes if using two-pass normalization.
+- Output filename (`YYYY-MM-DD.mp3`), duration, codec, sample rate, channels, and bitrate or VBR quality setting with measured average bitrate.
+- Successful decode, comparison of source/output duration with any intentional edits explained, and checks against the chosen loudness/peak targets.
+- Brief listening checks at the beginning, middle, and end for intelligibility, clipping, pumping, excessive noise reduction, and accidental truncation. If listening or measurement tools are unavailable, mark the check unverified and disclose this in the review summary; do not claim it passed.
+
+Keep this log with the local run record so the result can be reproduced without repeatedly processing the original.
+
 ### 2. Open the sermon administration area
+
+Before creating an entry, check the run record for an existing draft/post ID and resume that entry. If none is recorded, inspect **All Sermons**, including drafts, for the same title and sermon date; use speaker and service type to disambiguate. Resume a clearly matching draft. If a published match or an ambiguous match exists, ask how to proceed rather than creating a duplicate or overwriting it. After an interrupted save, upload, or publish, inspect the current state before retrying.
 
 1. Open the church's Reformation Sites / WordPress administration login.
 2. Authenticate using the site's existing secure browser session or approved credential mechanism.
@@ -84,7 +111,7 @@ If the sermon date cannot be determined confidently from the source information,
    - Settings
 6. Select **Add Sermons** to begin creating the sermon entry.
 
-Do not choose **All Sermons**, **Series**, **Speakers**, **Service Types**, **Topics**, or **Settings** when the task is to create a new sermon.
+Use **All Sermons** for duplicate checks or resuming an existing draft. Use **Add Sermons** only when a new entry is needed; taxonomy and settings pages do not create sermon entries.
 
 The Reformation Websites dashboard may also contain other content areas such as Articles, Books, Bulletins, Courses, Events, Ministries, Pages, and Profiles. Use the **Sermons** content area for this workflow.
 
@@ -126,7 +153,10 @@ On the **Add New Sermon** editor:
    - Select the supplied service type.
    - Do not infer Morning Service, Evening Service, or another service type solely from the sermon date/time unless the user has provided enough context or a site-specific configuration explicitly defines the rule.
 
-Before proceeding, verify that the title, scripture passage, speaker, service type, and sermon series match the supplied sermon information.
+6. **Sermon date**
+   - Verify the date used by this site's sermon listing matches the confirmed sermon date. Use the site's established date control or configuration; the walkthrough has not established the exact control. Do not assume renaming the MP3 sets the displayed date or confuse the sermon date with publication scheduling. Resolve uncertainty before review.
+
+Before proceeding, compare the editor values against the stored confirmed metadata. Save the draft and immediately record its WordPress post ID, edit URL, and permalink. Reuse that draft on subsequent steps or after interruption.
 
 ### 4. Upload the prepared sermon audio
 
@@ -135,7 +165,7 @@ Before proceeding, verify that the title, scripture passage, speaker, service ty
 3. Select **Add or Upload File**.
 4. Upload/select the cleaned MP3 created in Step 1, named `YYYY-MM-DD.mp3`.
 5. Use the uploaded media file for the Sermon Audio field.
-6. Verify that the Sermon Audio field references the intended MP3 before continuing.
+6. Verify that the Sermon Audio field references the intended MP3 before continuing. Record its media ID/URL and save the same draft; reuse the attached media on resume instead of uploading another copy.
 7. Do not upload the original `.m4a` when the prepared MP3 is available.
 
 The Sermon Audio field may also accept a URL or embed HTML, but this workflow uses the prepared uploaded MP3 unless the user explicitly requests another source.
@@ -145,14 +175,15 @@ The Sermon Audio field may also accept a URL or embed HTML, but this workflow us
 1. Scroll back to the top of the **Add New Sermon** editor.
 2. Locate the **Publish** panel in the right sidebar.
 3. Before publishing, verify the completed entry contains the intended:
-   - sermon title
+   - sermon title and sermon date
    - scripture passage
    - sermon series
    - speaker
    - service type
    - prepared sermon MP3
-4. Obtain explicit approval from the user before making the sermon public.
-5. After approval, click **Publish**.
+4. Generate a formal review summary from the stored confirmed values, after comparing them with the saved draft. Include every field above, the draft/post ID and preview or edit link, audio filename, duration, processing/quality-check results, and any unverified checks. Resolve missing or conflicting metadata before presenting the entry as ready.
+5. Require a separate, unmistakable approval of that completed summary, such as **Publish it**. Supplying metadata, requesting preparation, or approving audio alone is not publication approval. Record approval and the exact entry/version it covers. If metadata or audio changes afterward, present a revised summary and obtain fresh approval.
+6. After approval, click **Publish** once. Confirm the editor changes to **Update** and the entry reports published status; record the post ID and final permalink. If the result is uncertain, inspect that same entry before retrying.
 
 Publishing is an externally visible action. Do not click **Publish** without the required approval unless the user's local configuration explicitly pre-authorizes sermon publishing.
 
@@ -174,9 +205,13 @@ After the sermon has been published:
 5. Match the new sermon primarily by the supplied **title and sermon date**. Use the other displayed metadata as additional verification. Do not assume the first item is correct merely because it is newest.
 6. Verify the listing matches the intended title, speaker, series, date, scripture passage, and service type.
 7. Open the sermon or use the **Listen** control as appropriate to verify that sermon audio is present and accessible.
-8. Confirm that the public sermon audio corresponds to the newly published sermon and is available to visitors.
+8. Confirm that the public sermon audio corresponds to the recorded uploaded MP3 and is available without authentication. For Mercy's verification, follow redirects to the final audio URL and verify a normal GET returns **HTTP 200** with **Content-Type: audio/mpeg**. Separately request a small byte range (for example `Range: bytes=0-1023`) and verify **HTTP 206** with a matching **Content-Range**. An `Accept-Ranges` header alone does not prove seeking works. Record the final URL, statuses, content type, and range result. Use bounded/streamed requests to avoid unnecessarily downloading the whole file again. Verify Listen playback as well; HTTP checks do not replace listening.
 9. If the public sermon is missing, contains incorrect information, or the audio is unavailable, do not silently consider the task complete. Report the problem to the user and correct it only within the permissions and approval rules of this skill.
 10. When the public sermon is correct and accessible, report that the sermon workflow is complete.
+
+## Progress reporting
+
+Report each milestone once: **audio prepared**, **draft ready for review**, and **published and publicly verified**. Persist which milestones were reported so resuming does not repeat them. Send additional updates only for a meaningful blocker, correction, or user-requested status. Keep detailed processing records local and summarize the results for the user.
 
 ## Completion criteria
 
