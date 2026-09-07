@@ -72,7 +72,7 @@ If the sermon date cannot be determined confidently from the source information,
 
 1. Open the church's Reformation Sites / WordPress administration login.
 2. Authenticate using the site's existing secure browser session or approved credential mechanism.
-3. From the Reformation Websites dashboard, locate the **CONTENT** section in the left navigation.
+3. If a direct Add New Sermon URL is configured, open it after authentication and confirm the **Add New Sermon** editor appears; then continue to Step 3 below. Otherwise, from the Reformation Websites dashboard, locate the **CONTENT** section in the left navigation.
 4. Select **Sermons**.
 5. The Sermons submenu opens with options including:
    - All Sermons
@@ -88,7 +88,15 @@ Do not choose **All Sermons**, **Series**, **Speakers**, **Service Types**, **To
 
 The Reformation Websites dashboard may also contain other content areas such as Articles, Books, Bulletins, Courses, Events, Ministries, Pages, and Profiles. Use the **Sermons** content area for this workflow.
 
-For Mercy PCA, the current login flow begins at the church WordPress login page and redirects into the Reformation Websites administration interface. This site-specific URL should remain local configuration and should not be hard-coded into the reusable public skill.
+#### Restricted landing page after login
+
+An Editor account may successfully authenticate but land on a restricted custom overview page, such as `wp-admin/admin.php?page=overview-uiptp-27627`, showing **Sorry, you are not allowed to access this page.** This alone does not establish that the account lacks sermon permissions.
+
+- Open the configured Add New Sermon URL directly in the same authenticated session. For the demonstrated site, the path is `/wp-admin/post-new.php?post_type=cpl_item`, relative to the configured church website URL.
+- If **Add New Sermon** opens, continue with sermon metadata entry. The dashboard navigation above can be skipped.
+- If the direct sermon editor also denies access, stop and report the permission problem; do not automatically elevate the account role or create another user.
+
+Mercy PCA's Editor account was confirmed to reach the sermon editor through this direct path despite the restricted overview landing page. Keep the church domain, login URL, and full direct editor URL in local configuration rather than hard-coding them into the reusable public skill.
 
 ### 3. Enter sermon metadata
 
