@@ -10,7 +10,9 @@ Reusable church website workflows for Friday. These skills document Mercy PCA's 
 | [Add sermon](skills/add-sermon/SKILL.md) | Prepare sermon audio, enter metadata, upload the MP3, obtain publication approval, and verify the public sermon and audio. |
 | [Update announcements](skills/update-announcements/SKILL.md) | Duplicate an announcement, replace its content, set John Downs as author, publish and verify it, then send the user a Discord/Facebook summary in Telegram. |
 
-The sermon and announcement skills link to the shared login skill when authentication is needed. Keep all three skill folders together so those relative links remain available. Each workflow links to its screenshots at the step where they are useful.
+| [Upload bulletins](skills/upload-bulletins/SKILL.md) | Read an emailed bulletin PDF, copy page 2 into the website, upload the complete PDF, obtain preview approval, publish, and verify the bulletin. |
+
+The sermon, announcement, and bulletin skills link to the shared login skill when authentication is needed. Keep all four skill folders together so those relative links remain available. Each workflow links to its screenshots at the step where they are useful.
 
 ## Announcement inputs and output
 
@@ -36,14 +38,20 @@ If the restricted Posts list hides published announcements, the skill provides a
 
 Supply the source audio (typically an `.m4a` file or download link), exact sermon title, sermon date, scripture passage, speaker, service type, and series. Friday prepares a `YYYY-MM-DD.mp3`, maintains the metadata and processing record, prepares the website entry, and follows the sermon skill's publication approval requirements before verifying the public result.
 
+## Bulletin inputs and output
+
+Email Friday the bulletin PDF and identify the service date and morning/evening service when these are not clear from the source. Friday uses **page 2** for the website's order of worship and sermon notes, and uploads the **complete PDF**. The skill covers duplication, service-date permalink and date fields, both content columns, draft saves, and a website preview sent to Bryan. Publication requires Bryan's explicit approval of that preview.
+
+After publishing, Friday locates the matching block on the public Bulletins page and verifies the full bulletin and PDF. The skill includes eleven walkthrough screenshots and uses the shared logout/tab-cleanup procedure. It has been checked structurally and against the walkthrough; a full live run in Friday's environment remains untested.
+
 ## End-of-task browser cleanup
 
-Both church workflows use the shared login skill's cleanup procedure. Friday preserves saved work and resumable references, logs out of WordPress, closes every tab opened for the task, and checks that task admin/editor tabs no longer remain. Unrelated user tabs are preserved.
+All church content workflows use the shared login skill's cleanup procedure. Friday preserves saved work and resumable references, logs out of WordPress, closes every tab opened for the task, and checks that task admin/editor tabs no longer remain. Unrelated user tabs are preserved.
 
 Cleanup also applies when ending with a saved draft, cancellation, or blocker. The completion report includes verified logout and tab-cleanup status; any failure is reported separately from publication or Telegram delivery. Credentials are filled and submitted without intermediate browser snapshots that could expose their contents.
 
 ## Friday's environment
 
-These files are workflow instructions, not a standalone application or an integration installer. Friday needs her existing website browser access and secure credential mechanism. Announcement email intake additionally needs mailbox access, and Telegram delivery needs a working messaging capability and the user's known private chat.
+These files are workflow instructions, not a standalone application or an integration installer. Friday needs her existing website browser access and secure credential mechanism. Announcement and bulletin email intake additionally need mailbox access, and Telegram delivery needs a working messaging capability and the user's known private chat.
 
 Keep credentials, cookies, raw email, and private run records outside this repository. The included screenshots illustrate the interface; their dates and content are examples, not inputs for future updates.
