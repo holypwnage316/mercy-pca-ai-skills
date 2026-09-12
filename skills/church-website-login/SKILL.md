@@ -12,8 +12,11 @@ Use this shared workflow when a church website task needs authenticated administ
 1. Use the church domain and administration login URL from Friday's local configuration or the active request. The calling workflow supplies the intended admin destination when known.
 2. Reuse an existing authenticated browser session for the configured church site. Open the intended destination and check the current page before logging in again.
 3. If authentication is required, use the Reformation Sites credential in Friday's Bitwarden through her existing secure access mechanism. Do not copy credentials, passwords, or session cookies into the repository, conversation, or run records.
-4. Complete login, then open the calling workflow's intended destination in the same session. If credential access or an interactive authentication challenge requires user action, report the specific blocker.
-5. Verify the intended administration page is accessible, then return to the calling workflow. Successful login alone does not establish permission to edit a particular content area.
+4. Inspect the empty login form and identify its fields and submit control before entering credentials. Fill and submit credentials as one uninterrupted sequence without taking an intermediate screenshot, browser snapshot, DOM/accessibility dump, or field-value read. Use a secure input mechanism that does not echo secrets in tool output; if the available tool automatically snapshots filled fields and cannot suppress that output, use a safer existing credential/autofill mechanism or request user-assisted login. Never print or log credential values.
+5. Complete login, then open the calling workflow's intended destination in the same session. If credential access or an interactive authentication challenge requires user action, report the specific blocker.
+6. Verify the intended administration page is accessible, then return to the calling workflow. Successful login alone does not establish permission to edit a particular content area.
+
+Only inspect or snapshot the post-login page once it is clear of filled credentials. If submission fails and leaves credentials populated, clear the sensitive fields without reading them before obtaining diagnostic page state. If the tool cannot do this without exposing values, report the blocker rather than capturing the filled form.
 
 ## Restricted overview after login
 
