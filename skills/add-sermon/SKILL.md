@@ -186,7 +186,11 @@ After the sermon has been published:
 7. Open the sermon or use the **Listen** control as appropriate to verify that sermon audio is present and accessible.
 8. Confirm that the public sermon audio corresponds to the recorded uploaded MP3 and is available without authentication. For Mercy's verification, follow redirects to the final audio URL and verify a normal GET returns **HTTP 200** with **Content-Type: audio/mpeg**. Separately request a small byte range (for example `Range: bytes=0-1023`) and verify **HTTP 206** with a matching **Content-Range**. An `Accept-Ranges` header alone does not prove seeking works. Record the final URL, statuses, content type, and range result. Use bounded/streamed requests to avoid unnecessarily downloading the whole file again. Verify Listen playback as well; HTTP checks do not replace listening.
 9. If the public sermon is missing, contains incorrect information, or the audio is unavailable, do not silently consider the task complete. Report the problem to the user and correct it only within the permissions and approval rules of this skill.
-10. When the public sermon is correct and accessible, report that the sermon workflow is complete.
+10. When the public sermon is correct and accessible, perform the cleanup below before reporting the overall task complete.
+
+### 7. Log out and close task tabs
+
+Follow [End-of-task logout and browser cleanup](../church-website-login/SKILL.md#end-of-task-logout-and-browser-cleanup): preserve the run record, log out of WordPress, close every task-opened tab, and verify no task admin/editor tabs remain. Apply the same cleanup when ending with a saved draft or blocker. Report cleanup status alongside the sermon result.
 
 ## Progress reporting
 
@@ -200,7 +204,8 @@ The task is complete only when:
 - the sermon entry contains the supplied metadata;
 - the prepared MP3 has been attached;
 - the sermon has been published with the required approval; and
-- the resulting sermon has been verified on the public website.
+- the resulting sermon has been verified on the public website; and
+- WordPress logout and task-tab cleanup have been verified and reported. If cleanup is blocked, report it separately from the publication result.
 
 ## Visual workflow references
 

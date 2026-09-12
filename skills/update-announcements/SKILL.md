@@ -154,6 +154,12 @@ Follow the user's example style:
 
 The user's example highlighted a new building, men's Bible study, Sunday school, building-care opportunities, and a camping trip. These are examples of tone and detail, not recurring announcements to include by default. The example's September dates, street address, campground, and old announcement URL must not carry over unless supplied for the current update. Use relative phrases such as “this Sunday” only when accurate for the current sharing date; prefer explicit dates when timing is uncertain.
 
+## 10. Log out and close task tabs
+
+After public verification and the Telegram delivery attempt, follow [End-of-task logout and browser cleanup](../church-website-login/SKILL.md#end-of-task-logout-and-browser-cleanup). Preserve post and delivery references, log out of WordPress, close every task-opened tab (including email or Telegram tabs opened for this task), and verify no task admin/editor tabs remain. Apply cleanup when ending with a draft, cancellation, or blocker as well.
+
+Report logout and tab-cleanup status in the completion update, separately from the ready-to-copy social message. A blocked Telegram delivery must not prevent browser cleanup.
+
 ## Completion criteria
 
-The updated announcement has been published from the duplicated draft with the intended title, new content, interesting-links section, and **John Downs** as author, its full public page has been verified through the Articles listing, and the user has received a ready-to-copy Discord/Facebook post with the verified announcement link in their established private Telegram chat. If Telegram delivery is blocked, report publication and verification separately from the incomplete delivery step.
+The updated announcement has been published from the duplicated draft with the intended title, new content, interesting-links section, and **John Downs** as author, its full public page has been verified through the Articles listing, and the user has received a ready-to-copy Discord/Facebook post with the verified announcement link in their established private Telegram chat. WordPress logout and task-tab cleanup must also be verified and reported. If Telegram delivery or cleanup is blocked, report publication and verification separately from the incomplete step.

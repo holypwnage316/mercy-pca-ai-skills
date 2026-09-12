@@ -26,4 +26,18 @@ An Editor account may authenticate successfully but land on a restricted custom 
 - If no destination is known, use available admin navigation or obtain the destination from the user's walkthrough. Do not invent an announcement editor path or use the sermon editor for another content type.
 - If the intended page also denies access, report the permission problem. Do not automatically elevate the account role or create another user.
 
-This skill establishes access only. Continue the caller's workflow and its existing authorization requirements before changing or publishing content.
+Continue the caller's workflow and its existing authorization requirements before changing or publishing content. Returning authenticated access to the caller is not the end of the overall task; perform the cleanup below when that task ends.
+
+## End-of-task logout and browser cleanup
+
+At task start, record the browser/profile and existing tab IDs. Track every tab opened for the task, including popups, redirects into new tabs, public verification pages, and external link checks. Reuse this record when resuming instead of inferring ownership from a page title alone.
+
+When the overall task is complete, cancelled, or being ended with a blocker:
+
+1. Preserve required results and resumable state first: confirm any intended draft save, and record the post ID, edit URL, public URL, and remaining work outside the repository. Do not discard unsaved edits silently or publish merely to close a tab.
+2. Log out of WordPress using its authenticated logout control and complete any logout confirmation. Verify the session has ended, for example by observing the login page or a login requirement on an admin page. Closing tabs alone does not establish logout. If logout cannot be confirmed, report that limitation and still close the task's tabs.
+3. Close every tab opened for the task in Chrome or any other browser used, including the logout page, admin/editor pages, public pages, and link-check tabs. Close a pre-existing church admin/editor tab too if it was reused for this task, after preserving work. Do not close unrelated user tabs or quit the whole browser indiscriminately.
+4. Inspect the remaining tab inventory and verify no task-opened tabs or church admin/editor tabs used by the task remain. If other pre-existing church admin/editor tabs remain, report them rather than claiming none remain or closing unrelated work without authorization.
+5. Include logout and tab-cleanup status in the final completion report. Distinguish verified cleanup from failed or unavailable checks; a successful publication does not imply successful cleanup.
+
+An active pause for a user response is not task completion. When ending a run while awaiting later review, save the draft and resumable references, then clean up; reopen the saved draft through the shared login workflow when work resumes.
