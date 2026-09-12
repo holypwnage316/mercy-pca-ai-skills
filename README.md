@@ -6,7 +6,7 @@ Reusable church website workflows for Friday. These skills document Mercy PCA's 
 
 | Skill | Purpose |
 | --- | --- |
-| [Church website login](skills/church-website-login/SKILL.md) | Reuse or establish an authenticated session through Friday's existing Bitwarden access, including handling a restricted dashboard landing page. |
+| [Church website login](skills/church-website-login/SKILL.md) | Reuse or establish an authenticated session through Friday's existing Bitwarden access, including handling a restricted dashboard landing page and end-of-task logout and tab cleanup. |
 | [Add sermon](skills/add-sermon/SKILL.md) | Prepare sermon audio, enter metadata, upload the MP3, obtain publication approval, and verify the public sermon and audio. |
 | [Update announcements](skills/update-announcements/SKILL.md) | Duplicate an announcement, replace its content, set John Downs as author, publish and verify it, then send the user a Discord/Facebook summary in Telegram. |
 
@@ -28,9 +28,19 @@ The author is always **John Downs**. Friday checks the published entry on the pu
 
 Forwarding headers, signatures, private correspondence, and incidental email addresses are excluded from public content. An email address is included only when it is intentionally part of an announcement, such as a ministry contact.
 
+Before publishing, Friday compares the website and social drafts with the user's latest corrections and privacy choices. Event locations, site numbers, and private signup links are reviewed for public suitability. Obvious mechanical typos may be corrected without changing meaning; uncertain edits are flagged. Tracking links are replaced with verified public destinations when safely possible.
+
+If the restricted Posts list hides published announcements, the skill provides a fallback through the public Articles page and a verified direct editor link to **Duplicate This**.
+
 ## Sermon inputs and output
 
 Supply the source audio (typically an `.m4a` file or download link), exact sermon title, sermon date, scripture passage, speaker, service type, and series. Friday prepares a `YYYY-MM-DD.mp3`, maintains the metadata and processing record, prepares the website entry, and follows the sermon skill's publication approval requirements before verifying the public result.
+
+## End-of-task browser cleanup
+
+Both church workflows use the shared login skill's cleanup procedure. Friday preserves saved work and resumable references, logs out of WordPress, closes every tab opened for the task, and checks that task admin/editor tabs no longer remain. Unrelated user tabs are preserved.
+
+Cleanup also applies when ending with a saved draft, cancellation, or blocker. The completion report includes verified logout and tab-cleanup status; any failure is reported separately from publication or Telegram delivery. Credentials are filled and submitted without intermediate browser snapshots that could expose their contents.
 
 ## Friday's environment
 
